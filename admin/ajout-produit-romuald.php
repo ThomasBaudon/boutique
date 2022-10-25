@@ -27,8 +27,8 @@ if ($_POST) {
     // si la photo n'est pas vide je récupère les infos de la photo grâce à la superglobale $_FILES
     if (!empty($_FILES['photo']['name'])) {
 
-
         // Je crée le nom de la photo en concatenant le timestamp (time()) avec la référence produit fournit et le nom de l'image ajouté . J'ai fait cela afin d'éviter que plusieurs produits aient le même nom car le time() sera toujours diférent même si le nom de l'image est le même
+
         $nom_img = time() . '_' . $_POST['reference'] . '_' . $_FILES['photo']['name'];
 
         // j'ajoute les chemins pour l'ajout des photos
@@ -40,7 +40,8 @@ if ($_POST) {
         $img_bdd = URL . "photo/$nom_img";
 
 
-        if ($_FILES['photo']['size'] <= 8000000) {
+        if ($_FILES['photo']['size'] <= 8000000) { // Si la taille de la photo est inférieur ou égale à 8Mo
+
             //Je récupère l'extension de l'image
             $data = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
 
@@ -51,37 +52,43 @@ if ($_POST) {
 
             // Si l'extension de l'image de l'image se trouve dans le tableau d'extension avec in_array()
             if (in_array($data, $tab)) {
-                
+
                 // Enfin pour enrégistrer la photo nous allons utiliser fonction copy()
                 // copy() Fait une copie du fichier from vers le fichier to.
                 // Copy prend 2 arguments 1: le nom temmporaire $_FILES['photo']['tmp_name'] et 2: l'emplacement où la photo sera mise $photo_dossier (dans le dossier photo de ma boutique)
                 copy($_FILES['photo']['tmp_name'], $img_doc);
 
-            } else {
+            } else { // Sinon le format ne se trouve pas dans mon tableau de format autorisé
                 $content .= '<div class="alert alert-danger" role="alert">Format non autorisé</div>';
             }
-        } else {
+        } else { // Sinon la taille est supérieur à 8Mo
+
             $content .= '<div class="alert alert-danger" role="alert">Vérifier taille de votre image</div>';
         }
     }
 
 
-    // Si nous sommes da,ns le cas d'une modification
+    // Si nous sommes dans le cas d'une modification
     if (isset($_GET['action']) && $_GET['action'] == 'modification') {
 
         $pdo->query("UPDATE produit 
                         SET reference = '$_POST[reference]', categorie = '$_POST[categorie]', titre = '$_POST[titre]', description = '$_POST[description]', couleur = '$_POST[couleur]', taille = '$_POST[taille]', public = '$_POST[public]', photo = '$img_bdd', prix = '$_POST[prix]', stock = '$_POST[stock]'
                         WHERE id_produit = '$_POST[id_produit]'");
+
+        header('location:gestion_produits.php'); // je renvoi l'user sur le même fichier pour ne pas avoir infos du produit qui vient d'être update par défaut dans l'url
+
     } else { //Sinon nous sommes dans le cas d'un ajout
 
         // J'ajoute une image par défaut à mon produit
-        if(empty($img_bdd)){
-            $img_bdd = 'http://localhost/phpcompiegne/boutique/photo/1666679402_A1632ZHJzfez_image_not_found.png';
-            $content .= '<div class="alert alert-info" role="alert text-center">Vous avez une image par défaut pour le produits</div>';
+
+        if (empty($img_bdd)) {// Si $img_bdd est vide alors il n'y a pas d'image
+
+            $img_bdd = 'http://localhost/phpcompiegne/boutique/photo/1666679402_A1632ZHJzfez_image_not_found.png'; // Ceci est une image par défaut que j'ai ajouté dans ma bdd
+
+            $content .= '<div class="alert alert-info" role="alert text-center">Vous avez une image par défaut pour le produit</div>';
         }
 
         $pdo->query("INSERT INTO produit (reference, categorie, titre, description, couleur, taille, public, photo, prix, stock) VALUES ('$_POST[reference]', '$_POST[categorie]', '$_POST[titre]', '$_POST[description]', '$_POST[couleur]', '$_POST[taille]', '$_POST[public]', '$img_bdd', '$_POST[prix]', '$_POST[stock]')");
-        
     }
 }
 
@@ -94,6 +101,8 @@ if (isset($_GET['action']) && $_GET['action'] == 'suppression') {
     $pdo->query("DELETE 
                     FROM produit 
                     WHERE id_produit = '$_GET[id_produit]'");
+
+    header('location:gestion_produits.php'); // je renvoi l'user sur le même fichier pour ne pas avoir infos du produit qui vient d'être delete par défaut dans l'url
 }
 
 
@@ -102,21 +111,25 @@ if (isset($_GET['action']) && $_GET['action'] == 'suppression') {
 $r = $pdo->query("SELECT * FROM produit");
 
 // rowCount() renvoie le nombre de lignes affectées par la dernière instruction (donc le nombre produits)
-$content .= '<h1 class="text-center display-4">Liste des ' . $r->rowCount() . ' produits de la boutique</h1>';
+if($r->rowCount() >1){ // Si j'ai plus de 1 produit dans ma boutique j'affiche Liste des n produits
+    $content .= '<h1 class="text-center display-4">Liste des ' . $r->rowCount() . ' produits de la boutique</h1>';
+}else{ //Sinon j'affiche Liste de 1 produit
+    $content .= '<h1 class="text-center display-4">Liste de ' . $r->rowCount() . ' produit de la boutique</h1>';
+}
+
 
 
 
 $content .= '<table class="table table-striped"><tr>';
 // Faire une boucle pour afficher les produits dans la table
+
 // tant que $i est inférieur à la liste des colones alors on va tourner autant de fois qu'il y a de colone à afficher
 
 for ($i = 0; $i < $r->columnCount(); $i++) {
 
     //getColumnMeta() Récupère les métadonnées d'une colonne indexée à 0 dans un jeu de résultats sous la forme d'un tableau associatif.
 
-    $colone = $r->getColumnMeta($i); // Récupérer les infos de chaque colone (LES en-tête) . Tout le résultat sera dans un tableau
-
-    //$content .= $colone['name'];
+    $colone = $r->getColumnMeta($i); // Récupérer les infos de chaque colone (les en-tête) . Tout le résultat sera dans un tableau
 
     $content .= '<th>' . $colone['name'] . '</th>';
 }
@@ -136,7 +149,7 @@ while ($row = $r->fetch(PDO::FETCH_ASSOC)) {
             $content .= "<td class=\"align-middle\"><img src=\"$value\" width=\"60\"></td>";
         } else {
             // Ici je coupe la longueur du texte qui sera affiché avec substr()
-            $value = substr($value,0, 100);
+            $value = substr($value, 0, 100);
             $content .= "<td class=\"align-middle\">$value</td>";
         }
     }
@@ -184,7 +197,7 @@ $stock = (isset($produit_actuel['stock'])) ? $produit_actuel['stock'] : '';
 
 
 
-<!-----------------------PARTIE AFFICHAGE 1 -------------------------------->
+<!-----------------------PARTIE AFFICHAGE -------------------------------->
 
 <?php require_once('inc/head.php'); ?>
 
@@ -252,6 +265,7 @@ $stock = (isset($produit_actuel['stock'])) ? $produit_actuel['stock'] : '';
     <br>
 
     <label for="photo">Photo</label>
+    
     <input type="file" name="photo" id="photo" class="form-control" value="<?= $photo ?>">
     <!----Si la photo n'est pas vide (le cas ou le produit a déjà une photo----->
     <?php if (!empty($photo)) : ?>
@@ -262,8 +276,6 @@ $stock = (isset($produit_actuel['stock'])) ? $produit_actuel['stock'] : '';
 
     <?php endif;     ?>
     <input type="hidden" name="photo_actuelle" value="<?= $photo  ?>"><br>
-
-    <!----FIN UPDATE PHOTO----->
 
     <br>
 
