@@ -21,19 +21,19 @@ if(isset($_GET['action']) && $_GET['action'] == 'pageproduit'){
 
 }
 
-if(!empty($_POST)) {
+// if(!empty($_POST)) {
 
-    // Je créé une sessions que j'appelle 'PANIER' pour stocker les infos du produit
-    $_SESSION['panier']['id_produit']= $productInfos['id_produit'];
-    $_SESSION['panier']['titre']= $productInfos['titre'];
-    $_SESSION['panier']['reference']= $productInfos['reference'];
-    $_SESSION['panier']['prix']= $productInfos['prix'];
-    $_SESSION['panier']['quantite']= $_POST['quantite'];
+//     // Je créé une sessions que j'appelle 'PANIER' pour stocker les infos du produit
+//     $_SESSION['panier']['id_produit']= $productInfos['id_produit'];
+//     $_SESSION['panier']['titre']= $productInfos['titre'];
+//     $_SESSION['panier']['reference']= $productInfos['reference'];
+//     $_SESSION['panier']['prix']= $productInfos['prix'];
+//     $_SESSION['panier']['quantite']= $_POST['quantite'];
 
 
-    // print_r($_SESSION['panier']);
-    header('location:panier.php');
-}
+//     // print_r($_SESSION['panier']);
+//     header('location:panier.php');
+// }
 
 require_once('./inc/header.inc.php');
 require_once('./inc/nav.inc.php');
@@ -89,7 +89,8 @@ require_once('./inc/nav.inc.php');
                 <!-- <?php echo gettype($stock); ?> -->
                 <!-- <?php echo $stock; ?> -->
                 <!-- ACHETER -->
-                <button type="submit" class="mb=3 btn btn-success">AJOUTER AU PANIER</button>
+                <!-- <button type="submit" class="mb=3 btn btn-success">AJOUTER AU PANIER</button> -->
+                <input type="submit" name="ajoute_panier" class="mb=3 btn btn-success" value="AJOUTER AU PANIER">
             </form>
         </div>
         <div class="col-10">

@@ -21,53 +21,68 @@ function userIsAdmin(){
 
 function creation_panier(){
     if(!isset($_SESSION['panier'])){
-        $_SESSION['panier']['id_produit']= [];
-        $_SESSION['panier']['titre']= [];
-        $_SESSION['panier']['prix']= [];
-        $_SESSION['panier']['quantite']= [];
-    } else {
-        
-        // $id_produit = $_SESSION['panier']['id_produit'];
-        // $titre_produit = $_SESSION['panier']['titre'];
-        // $prix_produit = $_SESSION['panier']['prix'];
-        // $quantite = $_SESSION['panier']['quantite'];
-
-        return "Hello le panier";
+        $_SESSION['panier'] = array();
+        $_SESSION['panier']['id_produit']= array();
+        $_SESSION['panier']['quantite']= array();
+        $_SESSION['panier']['prix']= array();
+        $_SESSION['panier']['titre']= array();
     }
-    return true;
 }
 
-function ajouterArticle($id_produit, $quantite, $prix_produit){
 
-        creation_panier();
 
-        //Si le produit existe déjà on ajoute seulement la quantité
-        $positionProduit = array_search($id_produit,  $_SESSION['panier']['id_produit']);
+function ajoutProduit($id_produit, $quantite, $prix, $titre){ //Qui prend id, qtt, prix et titre
+    creation_panier();//J’execute la fonction de creation lors de l'ajout
 
-        if ($positionProduit == true)
-        {
-            // var_dump($positionProduit);
-           $_SESSION['panier']['quantite'][$positionProduit] += $quantite ;
-        }
-        else
-        {
-           //Sinon on ajoute le produit
-           array_push( $_SESSION['panier']['id_produit'],$id_produit);
-           array_push( $_SESSION['panier']['quantite'],$quantite);
-           array_push( $_SESSION['panier']['prix'],$prix_produit);
-        }
+    // Je vérifie sir le produit est déjà dans une session panier
+    // array_search() Recherche dans un tableau la première clé associée à la valeur
+    $position = array_search($id_produit, $_SESSION['panier']['id_produit']);
+
+    if($position !== false){ //Si le produit est trouvé alors j'incrémente la qtt
+        $_SESSION['panier']['quantite'][$position] += $quantite ;
+    }else{// Sinon je l'ajoute comme un nouveau produit. [] à la fin permet d'ajouter un nouveau produit et de ne pas écraser ce qui est déjà présent dans le panier
+        $_SESSION['panier']['id_produit'][] = $id_produit;
+         $_SESSION['panier']['quantite'][] = $quantite;
+         $_SESSION['panier']['prix'][] = $prix;
+         $_SESSION['panier']['titre'][] = $titre;
+    }
 
 }
 
 
-function MontantGlobal(){
-    $total=0;
-    for($i = 0; $i < count($_SESSION['panier']['id_produit']); $i++)
-    {
-       $total += $_SESSION['panier']['quantite'][$i] * $_SESSION['panier']['prix'][$i];
-    }
-    return $total;
- }
+
+
+// function ajouterArticle($id_produit, $quantite, $prix_produit){
+
+//         creation_panier();
+
+//         //Si le produit existe déjà on ajoute seulement la quantité
+//         $positionProduit = array_search($id_produit,  $_SESSION['panier']['id_produit']);
+
+//         if ($positionProduit == true)
+//         {
+//             // var_dump($positionProduit);
+//            $_SESSION['panier']['quantite'][$positionProduit] += $quantite ;
+//         }
+//         else
+//         {
+//            //Sinon on ajoute le produit
+//            array_push( $_SESSION['panier']['id_produit'],$id_produit);
+//            array_push( $_SESSION['panier']['quantite'],$quantite);
+//            array_push( $_SESSION['panier']['prix'],$prix_produit);
+//         }
+
+// }
+
+
+// function MontantGlobal(){
+//     $total=0;
+//     for($i = 0; $i < count($_SESSION['panier']['id_produit']); $i++)
+//     {
+//        $total += $_SESSION['panier']['quantite'][$i] * $_SESSION['panier']['prix'][$i];
+//     }
+//     return $total;
+//  }
 
 
 ?>
