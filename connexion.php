@@ -6,7 +6,8 @@
     $error = '';
 
     if(isset($_GET['action']) && $_GET['action'] == 'deconnexion'){
-        session_destroy();
+        // session_destroy();
+        session_unset();
         header('location:index.php');
     }
 

@@ -31,7 +31,7 @@ function creation_panier(){
 
 
 
-function ajoutProduit($id_produit, $quantite, $prix, $titre){ //Qui prend id, qtt, prix et titre
+function ajoutProduit($id_produit, $quantite, $prix, $titre, $reference){ //Qui prend id, qtt, prix et titre
     creation_panier();//J’execute la fonction de creation lors de l'ajout
 
     // Je vérifie sir le produit est déjà dans une session panier
@@ -42,37 +42,23 @@ function ajoutProduit($id_produit, $quantite, $prix, $titre){ //Qui prend id, qt
         $_SESSION['panier']['quantite'][$position] += $quantite ;
     }else{// Sinon je l'ajoute comme un nouveau produit. [] à la fin permet d'ajouter un nouveau produit et de ne pas écraser ce qui est déjà présent dans le panier
         $_SESSION['panier']['id_produit'][] = $id_produit;
-         $_SESSION['panier']['quantite'][] = $quantite;
-         $_SESSION['panier']['prix'][] = $prix;
-         $_SESSION['panier']['titre'][] = $titre;
+        $_SESSION['panier']['quantite'][] = $quantite;
+        $_SESSION['panier']['prix'][] = $prix;
+        $_SESSION['panier']['titre'][] = $titre;
+        $_SESSION['panier']['reference'][] = $reference;
     }
 
 }
 
 
+function montantTotal(){
+    $total = 0;
 
-
-// function ajouterArticle($id_produit, $quantite, $prix_produit){
-
-//         creation_panier();
-
-//         //Si le produit existe déjà on ajoute seulement la quantité
-//         $positionProduit = array_search($id_produit,  $_SESSION['panier']['id_produit']);
-
-//         if ($positionProduit == true)
-//         {
-//             // var_dump($positionProduit);
-//            $_SESSION['panier']['quantite'][$positionProduit] += $quantite ;
-//         }
-//         else
-//         {
-//            //Sinon on ajoute le produit
-//            array_push( $_SESSION['panier']['id_produit'],$id_produit);
-//            array_push( $_SESSION['panier']['quantite'],$quantite);
-//            array_push( $_SESSION['panier']['prix'],$prix_produit);
-//         }
-
-// }
+    for($i=0; $i < count($_SESSION['panier']['id_produit']); $i++){
+        $total += $_SESSION['panier']['quantite'][$i] * $_SESSION['panier']['prix'][$i];
+    }
+    return $total;
+}
 
 
 // function MontantGlobal(){

@@ -38,12 +38,6 @@
           <a class="nav-link" href="<?php URL?>connexion.php?action=deconnexion">Déconnexion</a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link" href="<?php URL?>panier.php">
-              Panier <i class="bi bi-cart2"></i>
-            </a>
-        </li>
-
 
         <?php else: ?>
 
@@ -55,6 +49,13 @@
         </li>
 
       <?php endif ?>
+
+      <li class="nav-item">
+            <a class="nav-link" href="<?php URL?>panier.php">
+              Panier <i class="bi bi-cart2"></i>
+            </a>
+        </li>
+
 
        
       </ul>
