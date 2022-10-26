@@ -61,14 +61,18 @@ function montantTotal(){
 }
 
 
-// function MontantGlobal(){
-//     $total=0;
-//     for($i = 0; $i < count($_SESSION['panier']['id_produit']); $i++)
-//     {
-//        $total += $_SESSION['panier']['quantite'][$i] * $_SESSION['panier']['prix'][$i];
-//     }
-//     return $total;
-//  }
+function retirerProduit($id_produit){
 
+    /* Je cherche la position du produit dans le panier */
+    $positionProduit = array_search($id_produit, $_SESSION['panier']['id_produit']);
+
+    // array_splice() Remove a portion of the array and replace it with something else
+    // en mode 1, remplace et reclasse les éléments dans le tableau
+    array_splice($_SESSION['panier']['id_produit'], $positionProduit,1);
+    array_splice($_SESSION['panier']['quantite'], $positionProduit,1);
+    array_splice($_SESSION['panier']['prix'], $positionProduit,1);
+    array_splice($_SESSION['panier']['titre'], $positionProduit,1);
+    array_splice($_SESSION['panier']['reference'], $positionProduit,1);
+}
 
 ?>
