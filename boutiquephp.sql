@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : mar. 25 oct. 2022 à 15:05
+-- Généré le : mer. 26 oct. 2022 à 15:06
 -- Version du serveur :  5.7.34
 -- Version de PHP : 8.0.8
 
@@ -35,6 +35,19 @@ CREATE TABLE `commande` (
   `etat` enum('en cours de traitement','envoyé','livré') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`id_commande`, `id_membre`, `montant`, `date_enregistrement`, `etat`) VALUES
+(11, 22, 638, '2022-10-26 16:10:46', 'en cours de traitement'),
+(12, 22, 638, '2022-10-26 16:54:25', 'en cours de traitement'),
+(13, 22, 153, '2022-10-26 16:54:55', 'en cours de traitement'),
+(14, 22, 153, '2022-10-26 16:55:06', 'en cours de traitement'),
+(15, 22, 202, '2022-10-26 16:56:19', 'en cours de traitement'),
+(16, 22, 202, '2022-10-26 16:57:50', 'en cours de traitement'),
+(17, 22, 504, '2022-10-26 17:01:40', 'en cours de traitement');
+
 -- --------------------------------------------------------
 
 --
@@ -48,6 +61,27 @@ CREATE TABLE `details_commande` (
   `quantite` int(3) NOT NULL,
   `prix` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Déchargement des données de la table `details_commande`
+--
+
+INSERT INTO `details_commande` (`id_detail_commande`, `id_commande`, `id_produit`, `quantite`, `prix`) VALUES
+(1, 14, 19, 1, 25),
+(2, 14, 20, 1, 99),
+(3, 14, 21, 1, 29),
+(4, 15, 19, 1, 25),
+(5, 15, 20, 1, 99),
+(6, 15, 21, 1, 29),
+(7, 15, 22, 1, 49),
+(8, 16, 19, 1, 25),
+(9, 16, 20, 1, 99),
+(10, 16, 21, 1, 29),
+(11, 16, 22, 1, 49),
+(12, 17, 19, 4, 25),
+(13, 17, 20, 3, 99),
+(14, 17, 21, 2, 29),
+(15, 17, 22, 1, 49);
 
 -- --------------------------------------------------------
 
@@ -102,10 +136,10 @@ CREATE TABLE `produit` (
 --
 
 INSERT INTO `produit` (`id_produit`, `reference`, `categorie`, `titre`, `description`, `couleur`, `taille`, `genre`, `photo`, `prix`, `stock`) VALUES
-(19, 'Sweat-Bleu', 'sweat', 'SWEAT basic bleu', 'Vous porterez facilement ce sweat homme uni avec une tenue casual, que ce soit accompagné d\'un jean ou encore d\'un jogging, dans un esprit plus sportif. Très confortable, le sweat est 100 % coton. Il a une capuche avec des liens de serrage.\r\n\r\nFrench terry, ce sont des joggings légers 100% coton parfaits pour s’activer au printemps. Un mot d’ordre: respirer ! Grâce aux bouclettes intérieures, vos mouvements n’auront pas de limite. Question sueur : ça nous fait pas peur ! La matière peut absorber 27 fois son poids en eau. Augmentez la résistance sur l’élliptique, nos joggings sont prêts à ce que vous vous donniez à 1000%.', 'bleu', 'X-large', 'm', 'localhost:8080/boutique/images/1666601042_ Sweat-bleu_sweat-bleu.jpg', 25, 10),
-(20, 'sweat_zip_noir', 'sweat', 'sweat zip noir', 'Les inconditionnels des looks streetwear sélectionnent sans hésiter ce sweatshirt basique comme nouveau must-have. Ce modèle se dévoile dans une coupe droite et comporte une fermeture zippée sur la longueur devant. Il est muni d\'une capuche, de manches longues et de deux poches à l\'avant. Uni, ce sweatshirt est disponible dans plusieurs coloris très tendance. Ajoutez-le à vos ensembles urbains décontractés comme un jean, un jogging ou un short, combinés à un t-shirt et des baskets.', 'noir', 'X-large', 'm', 'localhost:8080/boutique/images/1666346451_sweat_zip_noir_sweat-zipp-capuche-noir.jpeg', 99, 72),
-(21, 'Sweat-jaune', 'sweat', ' sweat jaune', ' Vous porterez facilement ce sweat homme uni avec une tenue casual, que ce soit accompagné d\'un jean ou encore d\'un jogging, dans un esprit plus sportif. Très confortable, le sweat est 100 % coton. Il a une capuche avec des liens de serrage.\r\n\r\nFrench terry, ce sont des joggings légers 100% coton parfaits pour s’activer au printemps. Un mot d’ordre: respirer ! Grâce aux bouclettes intérieures, vos mouvements n’auront pas de limite. Question sueur : ça nous fait pas peur ! La matière peut absorber 27 fois son poids en eau. Augmentez la résistance sur l’élliptique, nos joggings sont prêts à ce que vous vous donniez à 1000%.', ' jaune', 'X-large', 'm', 'localhost:8080/boutique/images/1666600410_ Sweat-jaune_sweat-jaune.jpeg', 29, 10),
-(22, 'Doudoune', 'manteaux', ' Doudoune Marine', 'Doudoune light, sans capuche, et sans manches. Osez la couleur grâce à cette doudoune light sans manches pour homme. Une pièce matelassée en tissu déperlant, fine et chaude à la fois, pour un porté remarqué au quotidien. Cette doudoune à fermeture zippée se dessine dans une coupe courte ajustée, est pourvue d\'un col montant, de poches latérales zippées et d\'une poche intérieure plaquée. On la porte idéalement sur une chemise en jean pour un look décontracté.', ' Bleu marine', 'X-large', 'm', 'localhost:8080/boutique/images/1666602134_ doudoune_doudoune-light-marine.jpg', 49, 10),
+(19, 'Sweat-Bleu', 'sweat', 'SWEAT basic bleu', 'Vous porterez facilement ce sweat homme uni avec une tenue casual, que ce soit accompagné d\'un jean ou encore d\'un jogging, dans un esprit plus sportif. Très confortable, le sweat est 100 % coton. Il a une capuche avec des liens de serrage.\r\n\r\nFrench terry, ce sont des joggings légers 100% coton parfaits pour s’activer au printemps. Un mot d’ordre: respirer ! Grâce aux bouclettes intérieures, vos mouvements n’auront pas de limite. Question sueur : ça nous fait pas peur ! La matière peut absorber 27 fois son poids en eau. Augmentez la résistance sur l’élliptique, nos joggings sont prêts à ce que vous vous donniez à 1000%.', 'bleu', 'X-large', 'm', 'localhost:8080/boutique/images/1666601042_ Sweat-bleu_sweat-bleu.jpg', 25, 6),
+(20, 'sweat_zip_noir', 'sweat', 'sweat zip noir', 'Les inconditionnels des looks streetwear sélectionnent sans hésiter ce sweatshirt basique comme nouveau must-have. Ce modèle se dévoile dans une coupe droite et comporte une fermeture zippée sur la longueur devant. Il est muni d\'une capuche, de manches longues et de deux poches à l\'avant. Uni, ce sweatshirt est disponible dans plusieurs coloris très tendance. Ajoutez-le à vos ensembles urbains décontractés comme un jean, un jogging ou un short, combinés à un t-shirt et des baskets.', 'noir', 'X-large', 'm', 'localhost:8080/boutique/images/1666346451_sweat_zip_noir_sweat-zipp-capuche-noir.jpeg', 99, 7),
+(21, 'Sweat-jaune', 'sweat', ' sweat jaune', ' Vous porterez facilement ce sweat homme uni avec une tenue casual, que ce soit accompagné d\'un jean ou encore d\'un jogging, dans un esprit plus sportif. Très confortable, le sweat est 100 % coton. Il a une capuche avec des liens de serrage.\r\n\r\nFrench terry, ce sont des joggings légers 100% coton parfaits pour s’activer au printemps. Un mot d’ordre: respirer ! Grâce aux bouclettes intérieures, vos mouvements n’auront pas de limite. Question sueur : ça nous fait pas peur ! La matière peut absorber 27 fois son poids en eau. Augmentez la résistance sur l’élliptique, nos joggings sont prêts à ce que vous vous donniez à 1000%.', ' jaune', 'X-large', 'm', 'localhost:8080/boutique/images/1666600410_ Sweat-jaune_sweat-jaune.jpeg', 29, 8),
+(22, 'Doudoune', 'manteaux', ' Doudoune Marine', 'Doudoune light, sans capuche, et sans manches. Osez la couleur grâce à cette doudoune light sans manches pour homme. Une pièce matelassée en tissu déperlant, fine et chaude à la fois, pour un porté remarqué au quotidien. Cette doudoune à fermeture zippée se dessine dans une coupe courte ajustée, est pourvue d\'un col montant, de poches latérales zippées et d\'une poche intérieure plaquée. On la porte idéalement sur une chemise en jean pour un look décontracté.', ' Bleu marine', 'X-large', 'm', 'localhost:8080/boutique/images/1666602134_ doudoune_doudoune-light-marine.jpg', 49, 9),
 (23, 'jean-classic-blue', 'jean', ' Jean blue classic', ' Disponible dans 3 longueurs, ce jean C5 s\'adapte à votre morphologie. Ce classique du vestiaire masculin est parfait pour une tenue cool et confort, porté avec un t-shirt et des baskets. Le jean homme a deux poches latérales et une poche ticket à l\'avant, deux poches arrières, une fermeture éclair et est en coton stretch. Pour prolonger la durée de vie de vos jeans, lavez-les systématiquement à basse température et à l\'envers, afin de préserver la couleur et la structure du tissu.', ' bleu', 'X-large', 'm', 'localhost:8080/boutique/images/1666682571_ jean-classic-blue_jean-regular.jpg', 49, 10),
 (24, 'Jean-classic-noir', 'jean', ' Jean black classic', ' Disponible dans 3 longueurs, ce jean C5 s\'adapte à votre morphologie. Ce classique du vestiaire masculin est parfait pour une tenue cool et confort, porté avec un t-shirt et des baskets. Le jean homme a deux poches latérales et une poche ticket à l\'avant, deux poches arrières, une fermeture éclair et est en coton stretch. Pour prolonger la durée de vie de vos jeans, lavez-les systématiquement à basse température et à l\'envers, afin de préserver la couleur et la structure du tissu.', ' noir', 'X-large', 'm', 'localhost:8080/boutique/images/1666682610_ jean-classic-noir_jean-regular-c5-noir.jpg', 49, 10),
 (25, 'Sweat-blanc', 'sweat', 'Sweat blanc', ' Vous porterez facilement ce sweat homme uni avec une tenue casual, que ce soit accompagné d\'un jean ou encore d\'un jogging, dans un esprit plus sportif. Très confortable, le sweat est 100 % coton. Il a une capuche avec des liens de serrage.\r\n\r\nFrench terry, ce sont des joggings légers 100% coton parfaits pour s’activer au printemps. Un mot d’ordre: respirer ! Grâce aux bouclettes intérieures, vos mouvements n’auront pas de limite. Question sueur : ça nous fait pas peur ! La matière peut absorber 27 fois son poids en eau. Augmentez la résistance sur l’élliptique, nos joggings sont prêts à ce que vous vous donniez à 1000%.', ' blanc', 'X-large', 'm', 'localhost:8080/boutique/images/1666682696_ Sweat-blanc_sweat-blanc.jpeg', 29, 10),
@@ -152,13 +186,13 @@ ALTER TABLE `produit`
 -- AUTO_INCREMENT pour la table `commande`
 --
 ALTER TABLE `commande`
-  MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT pour la table `details_commande`
 --
 ALTER TABLE `details_commande`
-  MODIFY `id_detail_commande` int(3) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_detail_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `membre`
