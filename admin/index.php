@@ -18,10 +18,10 @@
         <div class="col-10 text-center">
         <ul class="list-group">
             <li class="list-group-item">
-                <a href="" class="nav-link">Gestion membres</a>
+                <a href="gestion-commandes.php" class="nav-link">Gestion commandes</a>
             </li>
             <li class="list-group-item">
-                <a href="" class="nav-link">Gestion profils</a>
+                <a href="gestion-profil.php" class="nav-link">Gestion profils</a>
             </li>
             <li class="list-group-item">
                 <a href="ajout_produit.php" class="nav-link">Ajout produits</a>

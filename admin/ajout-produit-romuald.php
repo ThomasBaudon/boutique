@@ -34,10 +34,10 @@ if ($_POST) {
         // j'ajoute les chemins pour l'ajout des photos
 
         // chemin 1 - vers le dossier photo . Pour cela je vais utilisé la constante RACINE qui est dans mon  fichier init
-        $img_doc = RACINE . "photo/$nom_img";
+        $img_doc = URL . "photo/$nom_img";
 
         // chemin 2 - vers la bdd . Pour cela je vais utilisé la constante URL qui est dans mon fichier init
-        $img_bdd = URL . "photo/$nom_img";
+        $img_bdd = BASE . "photo/$nom_img";
 
 
         if ($_FILES['photo']['size'] <= 8000000) { // Si la taille de la photo est inférieur ou égale à 8Mo

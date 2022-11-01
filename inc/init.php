@@ -25,4 +25,6 @@ require_once('function.php');
 // Définir une constante où sera stockée l'URL RELATIVE
 define('URL', 'localhost:8080/boutique/');
 
+define("BASE", $_SERVER['DOCUMENT_ROOT'] . '/boutique/');// Je prépare le chemin de l'image dans le dossier qui est sur le serveur
+
 ?>

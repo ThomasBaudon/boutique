@@ -14,6 +14,7 @@ if(isset($_POST['ajoute_panier'])){
     $titre = $produit['titre'];
 
     ajoutProduit($id_produit, $quantite, $prix, $titre, $reference);
+    header("location:panier.php");
 
 }else{
     $content = "Votre panier est vide !";
@@ -53,6 +54,10 @@ if(isset($_POST['payer'])){
     if(!isset($error)){
 
         $pdo->query("INSERT INTO commande(id_membre, montant, date_enregistrement, etat) VALUES ('".$_SESSION['membre']['id_membre']."','".montantTotal()."', NOW(), 'en cours de traitement' ) ");
+
+        /* ========================================================================================== */
+        /* ----------------------- INSERER FONCTION MAIL ICI ---------------------------------------  */
+        /* ========================================================================================== */
 
 
         $id_commande = $pdo->lastInsertId();

@@ -62,3 +62,8 @@ nav .nav-link{
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
   }
+
+  .bordered{
+    border: 1px solid red !important;
+    background-color: red !important;
+  }

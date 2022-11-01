@@ -59,12 +59,10 @@
 
         if (!empty($_FILES['photo'])) {// $_FILES est une superglobale qui permet de manipulier les fichiers
         
-            $nomImg = time() . '_' . $_POST['reference'] . '_' . $_FILES['photo']['name'];// Nous allons renommer notre image afin de ne pas avoir des images de même nom
+            $nomImg = time() . '_'. $_FILES['photo']['name'];// Nous allons renommer notre image afin de ne pas avoir des images de même nom
 
             $img_bdd = URL . "images/$nomImg"; // Je finalise le chemin d'accès dans la bdd
         
-            // define("BASE", $_SERVER['DOCUMENT_ROOT'] . '/php/boutique/'); <-SUR PC WF3
-            define("BASE", $_SERVER['DOCUMENT_ROOT'] . '/boutique/');// Je prépare le chemin de l'image dans le dossier qui est sur le serveur
 
             $img_doc = BASE . "images/$nomImg";// Je finalise le chemin de l'image sur le serveur
             
@@ -73,7 +71,7 @@
             {
         
                 $info = pathinfo($_FILES['photo']['name']); //pathinfo() donne des infos sur un chemin
-        
+
                 $ext = $info['extension']; // Je récupère l'extension de mon image dans une variable
         
                 $tabExt =['jpg','png','jpeg','gif','JPG','PNG','JPEG','GIF','Jpg','Png','Jpeg','Gif'];// tableau contenant la liste des extensions que j'autorise
@@ -99,20 +97,19 @@
         // ================>>>>>>>>> INSERT INTO BDD // UPDATE BDD
         if(isset($_GET['action']) && $_GET['action'] == 'modification')
         {
-            $pdo->query("UPDATE produit SET reference='$_POST[reference]',
-                                            categorie='$_POST[categorie]',
-                                            titre='$_POST[titre]',
-                                            description='$_POST[description]',
-                                            couleur='$_POST[couleur]',
-                                            taille='$_POST[taille]',
-                                            genre='$_POST[genre]',
-                                            photo='$img_bdd',
-                                            prix='$_POST[prix]',
-                                            stock='$_POST[stock]' WHERE id_produit = '$_GET[id_produit]'");
+            $pdo->query("UPDATE produit SET reference='$_POST[reference]',categorie='$_POST[categorie]',titre='$_POST[titre]',description='$_POST[description]', couleur='$_POST[couleur]', taille='$_POST[taille]', genre='$_POST[genre]', photo='$img_bdd', prix='$_POST[prix]', stock='$_POST[stock]' WHERE id_produit = '$_GET[id_produit]'");
         }
         else
         {
-            $pdo->query("INSERT INTO produit (reference, categorie, titre, description, couleur, taille, genre, photo,prix, stock) VALUES ('$_POST[reference]', '$_POST[categorie]', '$_POST[titre]', '$_POST[description]', '$_POST[couleur]', '$_POST[taille]', '$_POST[genre]', '$img_bdd', '$_POST[prix]', '$_POST[stock]' )");
+
+            if (empty($img_bdd)) {// Si $img_bdd est vide alors il n'y a pas d'image
+
+                $img_bdd = 'http://localhost/boutique/images/vetements.png'; // Ceci est une image par défaut que j'ai ajouté dans ma bdd
+    
+                $content .= '<div class="alert alert-info" role="alert text-center">Vous avez une image par défaut pour le produit</div>';
+            }
+
+            $pdo->query("INSERT INTO produit (reference, categorie, titre, description, couleur, taille, public, photo, prix, stock) VALUES ('$_POST[reference]', '$_POST[categorie]', '$_POST[titre]', '$_POST[description]', '$_POST[couleur]', '$_POST[taille]', '$_POST[genre]', '$img_bdd', '$_POST[prix]', '$_POST[stock]' )");
         }
 
     }
@@ -220,6 +217,8 @@
 
 <h2 class="text-center">Gestion produit</h2>
 
+
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-10">
@@ -281,17 +280,19 @@
                     <option value="mixte" <?php if($gender == 'mixte'){echo "selected";}?>>mixte</option>
                 </select>
 
-                <!-- photo -->
-                <div class="input-group mt-3 mb-3">
-                     <input type="file" class="form-control" id="photo" name="photo">
-                        <br>
-                     <?php if(!empty($photo)) : ?>
-                        <img src=""<?php echo "".$photo; ?>" width='100'>
-                    <?php endif; ?>
-                    <input type="hidden" class="form-control" name="photo_actuelle" value="<?php echo $photo; ?>">
+                <label for="photo">Photo</label>
+    
+                <input type="file" name="photo" id="photo" class="form-control" value="<?= $photo ?>">
+                <!-- <?php var_dump($photo); ?> -->
+                <!----Si la photo n'est pas vide (le cas ou le produit a déjà une photo----->
+                <?php if (!empty($photo)) : ?>
+                    <p>Vous pouvez ajouter une nouvelle photo.<br>
+                        <!----afficher la photo---->
+                        <img src="http://<?= $photo ?>" width="50">
+                    </p><br>
 
-                </div>
-
+                <?php endif;     ?>
+                <input type="hidden" name="photo_actuelle" value="<?= $photo  ?>"><br>
                 <!-- stock / prix -->
 
                 <div class="row mt=3 mb-3">

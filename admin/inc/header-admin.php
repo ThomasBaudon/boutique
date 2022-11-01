@@ -8,10 +8,10 @@
       <ul class="navbar-nav">
         
         <li class="nav-item">
-            <a href="" class="nav-link text-white">Gestion membres</a>
+            <a href="gestion-commandes.php" class="nav-link text-white">Gestion commandes</a>
         </li>
         <li class="nav-item">
-            <a href="" class="nav-link text-white">Gestion profils</a>
+            <a href="gestion-profil.php" class="nav-link text-white">Gestion profils</a>
         </li>
         <li class="nav-item">
             <a href="ajout_produit.php" class="nav-link text-white">Ajout produits</a>

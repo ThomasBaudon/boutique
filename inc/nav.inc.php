@@ -2,7 +2,7 @@
 
 <nav class="navbar navbar-expand-lg bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="index.php">SHOP Logo</a>
+    <a class="navbar-brand" href="<?= URL?>index.php"">SHOP Logo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -38,6 +38,12 @@
           <a class="nav-link" href="<?php URL?>connexion.php?action=deconnexion">Déconnexion</a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link" href="<?php URL?>panier.php">
+              Panier <i class="bi bi-cart2"></i>
+            </a>
+        </li>
+
 
         <?php else: ?>
 
@@ -49,13 +55,6 @@
         </li>
 
       <?php endif ?>
-
-      <li class="nav-item">
-            <a class="nav-link" href="<?php URL?>panier.php">
-              Panier <i class="bi bi-cart2"></i>
-            </a>
-        </li>
-
 
        
       </ul>
